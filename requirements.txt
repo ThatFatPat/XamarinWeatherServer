@@ -1,0 +1,6 @@
+python-dotenv
+sqlite3
+hashlib
+flask
+os
+hmac
