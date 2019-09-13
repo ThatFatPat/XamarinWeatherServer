@@ -19,4 +19,7 @@ def webhook():
 def hello_world():
     return 'Hello from Flask!'
 
+@app.route('/notHello')
+def not_hello():
+    return 'Not Hello from Flask!'
 
