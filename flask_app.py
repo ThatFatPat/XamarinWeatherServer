@@ -17,6 +17,6 @@ def webhook():
 
 @app.route('/')
 def hello_world():
-    return 'Hello from Bottle!'
+    return 'Hello from Flask!'
 
 
