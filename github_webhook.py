@@ -3,9 +3,11 @@ import hashlib
 import hmac
 import git
 import os
+import logging
 
 #region Constants
 WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
+logging.error(WEBHOOK_SECRET)
 GIT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "/xamarinweatherservice")
 #endregion
 
