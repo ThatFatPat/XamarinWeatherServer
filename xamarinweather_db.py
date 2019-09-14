@@ -1,9 +1,11 @@
 import sqlite3
 import logging
+import os
 from http import HTTPStatus
 from decimal import Decimal
 
-DB_PATH = "./xamarinweatherdb.db"
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(THIS_FOLDER, "./xamarinweatherdb.db")
 
 class dbResponse:
     def __init__(self, data, resp_code):
