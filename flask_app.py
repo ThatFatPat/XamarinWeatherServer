@@ -27,7 +27,7 @@ def processRequest(func, request):
 
 @app.route('/update_server', methods=['POST'])
 def webhook():
-    github_webhook.handle_pull()
+    return github_webhook.handle_pull()
 
 @app.route('/getCities', methods=['POST'])
 def getCities():
