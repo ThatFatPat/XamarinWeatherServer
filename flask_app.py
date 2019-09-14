@@ -5,6 +5,8 @@ import xamarinweather_db as db
 import github_webhook
 import json
 
+test=None
+
 app = Flask(__name__)
 
 def processRequest(func, request):
