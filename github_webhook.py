@@ -5,10 +5,6 @@ import git
 import os
 import logging
 
-#region Constants
-
-#endregion
-
 def is_valid_signature(x_hub_signature, data, private_key):
     hash_algorithm, github_signature = x_hub_signature.split('=', 1)
     algorithm = hashlib.__dict__.get(hash_algorithm)
@@ -21,12 +17,19 @@ def handle_pull():
     WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
     logging.error(WEBHOOK_SECRET)
     GIT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "/xamarinweatherservice")
+    logging.error("defined folder")
     if not is_valid_signature(x_hub_signature, request.data, WEBHOOK_SECRET):
+        logging.error("wrong key")
         return 'Invalid signature', 403
     if request.method == 'POST':
+        logging.error("in if")
         repo = git.Repo(GIT_FOLDER)
+        logging.error("found repo")
         origin = repo.remotes.origin
         origin.pull()
+        logging.error("past pull")
         return 'Updated PythonAnywhere successfully', 200
     else:
+        logging.error("400")
         return 'Wrong event type', 400
+    logging.error("WAT")
