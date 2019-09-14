@@ -16,7 +16,7 @@ def handle_pull():
     x_hub_signature = request.headers.get('X-Hub-Signature')
     WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
     logging.error(WEBHOOK_SECRET)
-    GIT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "xamarinweatherservice")
+    GIT_FOLDER = "/home/ThatFatPat/xamarinweatherservice"
     logging.error("defined folder")
     if not is_valid_signature(x_hub_signature, request.data, WEBHOOK_SECRET):
         logging.error("wrong key")
