@@ -6,9 +6,7 @@ import os
 import logging
 
 #region Constants
-WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
-logging.error(WEBHOOK_SECRET)
-GIT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "/xamarinweatherservice")
+
 #endregion
 
 def is_valid_signature(x_hub_signature, data, private_key):
@@ -20,6 +18,9 @@ def is_valid_signature(x_hub_signature, data, private_key):
 
 def handle_pull():
     x_hub_signature = request.headers.get('X-Hub-Signature')
+    WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
+    logging.error(WEBHOOK_SECRET)
+    GIT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "/xamarinweatherservice")
     if not is_valid_signature(x_hub_signature, request.data, WEBHOOK_SECRET):
         return 'Invalid signature', 403
     if request.method == 'POST':
