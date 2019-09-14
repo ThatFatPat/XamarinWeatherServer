@@ -17,7 +17,7 @@ def processRequest(func, request):
         user = data.get("username", None)
         password = data.get("password", None)
         if user is None or password is None:
-            return 'Invalid requset', 400
+            return '', 400
         city = data.get("city", None)
         if city is None:
             resp = func(user, password)
@@ -25,7 +25,7 @@ def processRequest(func, request):
             resp = func(user, password, city)
         return jsonify(resp.data), resp.resp_code
     except Exception as e:
-        return 'Invalid request', 400
+        return '', 400
 
 @app.route('/update_server', methods=['POST'])
 def webhook():
@@ -51,4 +51,4 @@ def registerUser():
 if __name__ == "__main__":
     db.init_db()
     if 'liveconsole' not in gethostname() and os.getenv('VSCODE') != "1":
-        app.run()
+        app.run(ssl_context='adhoc')
