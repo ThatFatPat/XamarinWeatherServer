@@ -43,9 +43,6 @@ def checkCredentials():
 def registerUser():
     return processRequest(db.registerUser, request)
 
-@app.route('/')
-def hello():
-    return "hello", 200
 
 if __name__ == "__main__":
     db.init_db()
