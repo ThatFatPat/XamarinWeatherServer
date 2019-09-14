@@ -14,8 +14,6 @@ def is_valid_signature(x_hub_signature, data, private_key):
     return hmac.compare_digest(mac.hexdigest(), github_signature)
 
 def handle_pull():
-    if 'liveconsole' not in gethostname():
-        return 'Not on PythonAnywhere', 400
     x_hub_signature = request.headers.get('X-Hub-Signature')
     WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
     GIT_FOLDER = "/home/ThatFatPat/xamarinweatherservice"
