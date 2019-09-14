@@ -2,6 +2,12 @@ from flask import Flask, request
 import hashlib
 import hmac
 import git
+import os
+
+#region Constants
+WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
+THIS_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "xamarinweatherservice")
+#endregion
 
 def is_valid_signature(x_hub_signature, data, private_key):
     hash_algorithm, github_signature = x_hub_signature.split('=', 1)

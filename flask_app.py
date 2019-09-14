@@ -5,10 +5,6 @@ import xamarinweather_db as db
 import github_webhook
 import json
 
-#region Constants
-WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
-#endregion
-
 app = Flask(__name__)
 
 def processRequest(func, request):
