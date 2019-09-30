@@ -17,7 +17,6 @@ def handle_pull():
     x_hub_signature = request.headers.get('X-Hub-Signature')
     WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
     GIT_FOLDER = "/home/ThatFatPat/xamarinweatherservice"
-    logging.error("defined folder")
     if not is_valid_signature(x_hub_signature, request.data, WEBHOOK_SECRET):
         return 'Invalid signature', 403
     if request.method == 'POST':
