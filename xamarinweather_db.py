@@ -92,7 +92,7 @@ def getCitiesForUser(user, password):
     if resp.resp_code == HTTPStatus.OK:
         # Authorization successful
         inputParams = (resp.data,)
-        query = "SELECT * FROM UsernamesCities LEFT JOIN Cities ON UsernamesCities.CityId=Cities.CityId WHERE UserId = ?"
+        query = "SELECT Cities.CityId, LocationId, CityName, CountryName, Lon, Lat FROM UsernamesCities LEFT JOIN Cities ON UsernamesCities.CityId=Cities.CityId WHERE UserId = ?"
         ret = _query(query, inputParams)
         if ret[0]:
             cities = [_rowToCityExternal(row) for row in ret[1]]
@@ -103,11 +103,11 @@ def getCitiesForUser(user, password):
 
 # Exclude internal CityId
 def _rowToCityExternal(row):
-    return {"Id": row[3], "CityName": row[4], "CountryName": row[5], "CoordData":{"lon": row[6], "lat": row[7]}} 
+    return {"Id": row[1], "CityName": row[2], "CountryName": row[3], "CoordData":{"lon": row[4], "lat": row[5]}} 
 
 # Include internal CityId and structure
 def _rowToCityInternal(row):
-    return {"CityId": row[2], "LocationId": row[3], "CityName": row[4], "CountryName": row[5], "Lon": row[6], "Lat": row[7]}
+    return {"CityId": row[0], "LocationId": row[1], "CityName": row[2], "CountryName": row[3], "Lon": row[4], "Lat": row[5]}
 
 def _cityInternalToExternal(city):
     return {"Id": city["LocationId"], "CityName": city["CityName"], "CountryName": city["CountryName"], "CoordData":{"lon": city["Lon"], "lat": city["Lat"]}} 
