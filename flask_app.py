@@ -4,6 +4,7 @@ import os
 import xamarinweather_db as db
 import github_webhook
 import json
+import logging
 
 app = Flask(__name__)
 
@@ -21,6 +22,7 @@ def processRequest(func, request):
             resp = func(user, password, city)
         return jsonify(resp.data), resp.resp_code
     except Exception as e:
+        logging.error(str(e))
         return '', 400
 
 @app.route('/update_server', methods=['POST'])
