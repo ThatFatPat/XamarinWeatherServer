@@ -35,6 +35,10 @@ def getCities():
 def addCity():
     return processRequest(db.addCityForUser, request)
 
+@app.route('/removeCity', methods=['POST'])
+def removeCity():
+    return processRequest(db.removeCityForUser, request)
+
 @app.route('/checkCredentials', methods=['POST'])
 def checkCredentials():
     return processRequest(db.checkCredentials, request)

@@ -103,11 +103,11 @@ def getCitiesForUser(user, password):
 
 # Exclude internal CityId
 def _rowToCityExternal(row):
-    return {"Id": row[1], "CityName": row[2], "CountryName": row[3], "CoordData":{"lon": row[4], "lat": row[5]}} 
+    return {"Id": row[3], "CityName": row[4], "CountryName": row[5], "CoordData":{"lon": row[6], "lat": row[7]}} 
 
 # Include internal CityId and structure
 def _rowToCityInternal(row):
-    return {"CityId": row[0], "LocationId": row[1], "CityName": row[2], "CountryName": row[3], "Lon": row[4], "Lat": row[5]}
+    return {"CityId": row[2], "LocationId": row[3], "CityName": row[4], "CountryName": row[5], "Lon": row[6], "Lat": row[7]}
 
 def _cityInternalToExternal(city):
     return {"Id": city["LocationId"], "CityName": city["CityName"], "CountryName": city["CountryName"], "CoordData":{"lon": city["Lon"], "lat": city["Lat"]}} 
@@ -169,7 +169,6 @@ def addCityForUser(user, password, city):
         return resp
     userId = resp.data
     resp = _lookupCity(city["Id"])
-    internalCity = None
     if resp.resp_code == HTTPStatus.OK:
         cityId = resp.data["CityId"]
     elif resp.resp_code == HTTPStatus.BAD_REQUEST:
@@ -189,3 +188,22 @@ def addCityForUser(user, password, city):
             return dbResponse({"exists": True}, HTTPStatus.BAD_REQUEST) # City User combination exists
         else:
             return dbResponse('', HTTPStatus.INTERNAL_SERVER_ERROR)
+
+def removeCityForUser(user, password, city):
+    resp = _getUserId(user, password)
+    if resp.resp_code != HTTPStatus.OK:
+        return resp
+    userId = resp.data
+    resp = _lookupCity(city["Id"])
+    if resp.resp_code == HTTPStatus.OK:
+        cityId = resp.data["CityId"]
+    elif resp.resp_code == HTTPStatus.BAD_REQUEST or resp.resp_code == HTTPStatus.NOT_FOUND:
+        resp.resp_code = HTTPStatus.BAD_REQUEST
+        return resp
+    inputParams = (userId, cityId)
+    query = "DELETE FROM UsernamesCities WHERE UserId = ? AND CityId = ?"
+    ret = _query(query, inputParams)
+    if ret[0]:
+        return dbResponse({"exists": False}, HTTPStatus.OK)
+    else:
+        return dbResponse('', HTTPStatus.INTERNAL_SERVER_ERROR)
